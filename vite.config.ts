@@ -1,11 +1,10 @@
 import { defineConfig, Plugin } from "vite";
-import react from "@vitejs/plugin-react-swc"; // using SWC (faster)
+import react from "@vitejs/plugin-react-swc";
 import path from "path";
-import { createServer } from "./server";
 
 // https://vitejs.dev/config/
-export default defineConfig(({ mode }) => ({
-  base: "/RAHUL/", // 👈 GitHub Pages base path
+export default defineConfig(() => ({
+  base: "/RAHUL/", // 👈 required for GitHub Pages
 
   server: {
     host: "::",
@@ -17,10 +16,10 @@ export default defineConfig(({ mode }) => ({
   },
 
   build: {
-    outDir: "dist/spa",
+    outDir: "dist/spa", // 👈 matches GitHub Actions config
   },
 
-  plugins: [react(), expressPlugin()],
+  plugins: [react()],
 
   resolve: {
     alias: {
@@ -29,15 +28,3 @@ export default defineConfig(({ mode }) => ({
     },
   },
 }));
-
-// Custom express plugin
-function expressPlugin(): Plugin {
-  return {
-    name: "express-plugin",
-    apply: "serve", // Only during dev
-    configureServer(server) {
-      const app = createServer();
-      server.middlewares.use(app);
-    },
-  };
-}
