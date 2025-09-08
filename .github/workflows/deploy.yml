@@ -3,7 +3,7 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - main   # 👈 change this if your default branch is not "main"
+      - main   # 👈 change if your branch is different
 
 jobs:
   build-and-deploy:
@@ -16,7 +16,7 @@ jobs:
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
         with:
-          run_install: true   # ✅ uses pnpm version from package.json
+          run_install: true   # ✅ picks pnpm@10.14.0 from package.json
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -24,11 +24,11 @@ jobs:
           node-version: 18
           cache: "pnpm"
 
-      - name: Build project
-        run: pnpm run build
+      - name: Build frontend
+        run: pnpm run build:ghpages   # ✅ only builds frontend, ignores Express
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist/spa   # 👈 matches your vite.config.ts outDir
+          publish_dir: ./dist/spa
