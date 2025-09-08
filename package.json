@@ -7,7 +7,7 @@
     "build": "npm run build:client && npm run build:server",
     "build:client": "vite build",
     "build:server": "vite build --config vite.config.server.ts",
-    "build:ghpages": "vite build",        // 👈 for GitHub Pages only
+    "build:ghpages": "vite build",
     "start": "node dist/server/node-build.mjs",
     "test": "vitest --run",
     "format.fix": "prettier --write .",
@@ -23,7 +23,6 @@
     "vite": "^7.1.2",
     "typescript": "^5.9.2",
     "vitest": "^3.2.4"
-    // keep the rest of your devDependencies as you had them
   },
   "packageManager": "pnpm@10.14.0"
 }
