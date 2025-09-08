@@ -1,18 +1,12 @@
 import { defineConfig, Plugin } from "vite";
-import react from "@vitejs/plugin-react-swc";
+import react from "@vitejs/plugin-react-swc"; // using SWC (faster)
 import path from "path";
 import { createServer } from "./server";
 
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-
-export default defineConfig({
-  base: '/RAHUL/',   // 👈 important
-  plugins: [react()],
-})
-
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
+  base: "/RAHUL/", // 👈 GitHub Pages base path
+
   server: {
     host: "::",
     port: 8080,
@@ -21,10 +15,13 @@ export default defineConfig(({ mode }) => ({
       deny: [".env", ".env.*", "*.{crt,pem}", "**/.git/**", "server/**"],
     },
   },
+
   build: {
     outDir: "dist/spa",
   },
+
   plugins: [react(), expressPlugin()],
+
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./client"),
@@ -33,14 +30,13 @@ export default defineConfig(({ mode }) => ({
   },
 }));
 
+// Custom express plugin
 function expressPlugin(): Plugin {
   return {
     name: "express-plugin",
-    apply: "serve", // Only apply during development (serve mode)
+    apply: "serve", // Only during dev
     configureServer(server) {
       const app = createServer();
-
-      // Add Express app as middleware to Vite dev server
       server.middlewares.use(app);
     },
   };
